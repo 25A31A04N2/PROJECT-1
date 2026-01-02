@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 50
+
+struct Student {
+    int roll;
+    char name[30];
+    int meals;
+    float bill;
+};
+
+struct Student s[MAX];
+int count = 0;
+float meal_rate = 60.0;   // cost per meal
+
+void addStudent() {
+    printf("\nEnter Roll Number: ");
+    scanf("%d", &s[count].roll);
+
+    printf("Enter Name: ");
+    scanf("%s", s[count].name);
+
+    s[count].meals = 0;
+    s[count].bill = 0.0;
+
+    count++;
+    printf("Student added successfully!\n");
+}
+
+void addMeals() {
+    int roll, i, meal;
+    printf("\nEnter Roll Number: ");
+    scanf("%d", &roll);
+
+    for (i = 0; i < count; i++) {
+        if (s[i].roll == roll) {
+            printf("Enter number of meals taken: ");
+            scanf("%d", &meal);
+            s[i].meals += meal;
+            s[i].bill = s[i].meals * meal_rate;
+            printf("Meals updated successfully!\n");
+            return;
+        }
+    }
+    printf("Student not found!\n");
+}
+
+void displayStudents() {
+    int i;
+    printf("\n--- Hostel Mess Records ---\n");
+    printf("Roll\tName\tMeals\tBill\n");
+
+    for (i = 0; i < count; i++) {
+        printf("%d\t%s\t%d\t%.2f\n",
+               s[i].roll, s[i].name, s[i].meals, s[i].bill);
+    }
+}
+
+int main() {
+    int choice;
+
+    do {
+        printf("\n==== Hostel Mess Management ====");
+        printf("\n1. Add Student");
+        printf("\n2. Add Meals");
+        printf("\n3. Display Records");
+        printf("\n4. Exit");
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                addStudent();
+                break;
+            case 2:
+                addMeals();
+                break;
+            case 3:
+                displayStudents();
+                break;
+            case 4:
+                printf("Thank you! Exiting...\n");
+                break;
+            default:
+                printf("Invalid choice!\n");
+        }
+    } while (choice != 4);
+
+    return 0;
+}
